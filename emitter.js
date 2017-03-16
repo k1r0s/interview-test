@@ -15,5 +15,20 @@
  */
 
 export default class Emitter {
-    constructor() { }
+
+    actionsPool = []
+
+    constructor() {}
+
+    subscribe(eventName, cbk) {
+        this.actionsPool.push({ eventName, cbk });
+        return cbk;
+    }
+
+    emit(eventName, ...args) {
+        this.actionsPool
+        .filter(action => action.eventName === eventName)
+        .forEach(action => { action.cbk.apply(null, args)})
+    }
+
 }
